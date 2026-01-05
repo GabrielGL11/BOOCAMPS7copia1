@@ -78,14 +78,11 @@ WSGI_APPLICATION = 'pagina.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'prueba',
-        'USER': 'postgres',
-        'PASSWORD': 'admin2',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://hoja_de_vida_32fc_user:im8KE6I6zGhSV4hqM8yX5wLsoDxVBJb4@dpg-d4vm9uili9vc73dra690-a/hoja_de_vida_32fc',
+        conn_max_age=600
+    )
 }
 
 
@@ -124,6 +121,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
 LOGIN_URL = '/signin/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
